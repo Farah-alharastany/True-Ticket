@@ -166,7 +166,7 @@
           <div class="flex items-center gap-8">
             <div class="text-center">
               <img
-                src="https://flagcdn.com/w320/{{ team1Flag }}.png"
+                id="team1Flag"
                 alt="{{ team1 }}"
                 class="w-24 h-24 object-contain"
               />
@@ -177,7 +177,7 @@
 
             <div class="text-center">
               <img
-                src="https://flagcdn.com/w320/{{ team2Flag }}.png"
+                id="team2Flag"
                 alt="{{ team2 }}"
                 class="w-24 h-24 object-contain"
               />
@@ -396,17 +396,17 @@
                   <span>أهمية المباراة</span>
                   <span>{{ importance }}</span>
                 </div> -->
-                <div
+                <!-- <div
                   class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5"
                 >
-                  <!-- <div
+                  <div
                     class="bg-yellow-500 h-2.5 rounded-full"
                     style="width: 
                     {% if importance == 'low' %}30%
                     {% elif importance == 'medium' %}60%
                     {% else %}90%{% endif %}"
-                  ></div> -->
-                </div>
+                  ></div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -582,6 +582,8 @@
         const base_price = urlParams.get("base_price") || "0";
         const tickets_sold = urlParams.get("tickets_sold") || "0";
         const days_until = parseInt(urlParams.get("days_until")) || 0;
+        const team1Flag = urlParams.get("team1Flag") || "غير محدد";
+        const team2Flag = urlParams.get("team2Flag") || "غير محدد";
 
         // Fill page content
         document.getElementById(
@@ -600,6 +602,8 @@
         progress = Math.max(0, Math.min(progress, 100));
         document.getElementById("progress-bar").style.width = `${progress}%`;
 
+        document.getElementById('team1Flag').src = `https://flagcdn.com/w320/${team1Flag}.png`;
+        document.getElementById('team2Flag').src = `https://flagcdn.com/w320/${team2Flag}.png`;
         // 👇 حساب السعر المتوقع تلقائيًا عند تحميل الصفحة
         const formData = {
           base_price: urlParams.get("base_price"),
