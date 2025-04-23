@@ -4,8 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>حجز تذاكر | {{ team1 }} vs {{ team2 }}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
     <style>
       :root {
@@ -13,7 +19,7 @@
         --primary-dark: #15803d;
       }
       body {
-        font-family: 'Tajawal', sans-serif;
+        font-family: "Tajawal", sans-serif;
         transition: all 0.3s ease;
       }
       .ticket-card {
@@ -34,7 +40,12 @@
         box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
       }
       .match-header {
-        background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0.3)
+          ),
+          url("https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
         background-size: cover;
         background-position: center;
       }
@@ -54,37 +65,68 @@
       }
     </style>
   </head>
-  <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
+  <body
+    class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen"
+  >
     <!-- Header -->
-    <header class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 sticky top-0 z-50">
+    <header
+      class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 sticky top-0 z-50"
+    >
       <div class="max-w-7xl mx-auto flex items-center justify-between">
         <div class="flex items-center space-x-4 space-x-reverse">
-          <img class="w-16" src="{{url_for('static', filename='logo.png')}}" alt="شعار المنصة" />
-          <h1 class="text-xl font-bold hidden md:block">منصة التذاكر الرسمية</h1>
+          <img
+            class="w-16"
+            src="{{url_for('static', filename='logo.png')}}"
+            alt="شعار المنصة"
+          />
+          <h1 class="text-xl font-bold hidden md:block">
+            منصة التذاكر الرسمية
+          </h1>
         </div>
-        
+
         <nav class="hidden md:flex items-center gap-8">
-          <a href="#" class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition">
+          <a
+            href="#"
+            class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition"
+          >
             الرئيسية
           </a>
-          <a href="#" class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition">
+          <a
+            href="#"
+            class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition"
+          >
             المباريات
           </a>
-          <a href="#" class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition">
+          <a
+            href="#"
+            class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition"
+          >
             حجوزاتي
           </a>
-          <a href="#" class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition">
+          <a
+            href="#"
+            class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition"
+          >
             المساعدة
           </a>
         </nav>
-        
+
         <div class="flex items-center gap-4">
-          <button class="hidden md:flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition">
+          <button
+            class="hidden md:flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition"
+          >
             <iconify-icon icon="mdi:account"></iconify-icon>
             تسجيل الدخول
           </button>
-          <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-            <iconify-icon id="theme-icon" icon="mdi:weather-sunny" class="text-2xl"></iconify-icon>
+          <button
+            onclick="toggleDarkMode()"
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          >
+            <iconify-icon
+              id="theme-icon"
+              icon="mdi:weather-sunny"
+              class="text-2xl"
+            ></iconify-icon>
           </button>
         </div>
       </div>
@@ -93,15 +135,17 @@
     <!-- Match Header -->
     <section class="match-header text-white py-16">
       <div class="max-w-7xl mx-auto px-6">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-8"
+        >
           <div class="text-center md:text-right">
-            <span class="bg-green-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4 inline-block">
-              {{ stage }}
+            <span
+            id="match-stage"
+              class="bg-green-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4 inline-block"
+            >
             </span>
             <h1 class="text-3xl md:text-5xl font-bold mb-4">
-              <span class="text-shadow">{{ team1 }}</span> 
-              <span class="mx-4">vs</span> 
-              <span class="text-shadow">{{ team2 }}</span>
+              <span id="team-info"></span>
             </h1>
             <div class="flex items-center justify-center md:justify-end gap-4">
               <div class="flex items-center gap-2">
@@ -118,17 +162,25 @@
               </div>
             </div>
           </div>
-          
+
           <div class="flex items-center gap-8">
             <div class="text-center">
-              <img src="https://flagcdn.com/w320/{{ team1Flag }}.png" alt="{{ team1 }}" class="w-24 h-24 object-contain">
+              <img
+                src="https://flagcdn.com/w320/{{ team1Flag }}.png"
+                alt="{{ team1 }}"
+                class="w-24 h-24 object-contain"
+              />
               <h3 class="text-xl font-bold mt-2">{{ team1 }}</h3>
             </div>
-            
+
             <div class="text-2xl font-bold">VS</div>
-            
+
             <div class="text-center">
-              <img src="https://flagcdn.com/w320/{{ team2Flag }}.png" alt="{{ team2 }}" class="w-24 h-24 object-contain">
+              <img
+                src="https://flagcdn.com/w320/{{ team2Flag }}.png"
+                alt="{{ team2 }}"
+                class="w-24 h-24 object-contain"
+              />
               <h3 class="text-xl font-bold mt-2">{{ team2 }}</h3>
             </div>
           </div>
@@ -143,100 +195,151 @@
         <div class="lg:col-span-2">
           <div class="ticket-card rounded-2xl shadow-xl p-8">
             <h2 class="text-2xl font-bold mb-6">اختر تذكرتك</h2>
-            
+
             <!-- Seat Type Selection -->
             <div class="mb-8">
               <h3 class="text-lg font-semibold mb-4">اختر فئة المقاعد</h3>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="seat-option cursor-pointer bg-white dark:bg-gray-700 p-4 rounded-xl border border-gray-200 dark:border-gray-600"
-                     onclick="selectSeat('Silver', 1.5)">
+                <div
+                  class="seat-option cursor-pointer bg-white dark:bg-gray-700 p-4 rounded-xl border border-gray-200 dark:border-gray-600"
+                  onclick="selectSeat('Silver', 1.5)"
+                >
                   <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
-                      <iconify-icon icon="mdi:seat" class="text-gray-600 dark:text-gray-300"></iconify-icon>
+                    <div
+                      class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center"
+                    >
+                      <iconify-icon
+                        icon="mdi:seat"
+                        class="text-gray-600 dark:text-gray-300"
+                      ></iconify-icon>
                     </div>
                     <h4 class="font-bold">المقاعد الفضية</h4>
                   </div>
-                  <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">منطقة وسط الملعب مع رؤية جيدة</p>
+                  <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
+                    منطقة وسط الملعب مع رؤية جيدة
+                  </p>
                   <div class="mt-4 font-bold text-green-600">× 1.5</div>
                 </div>
-                
-                <div class="seat-option cursor-pointer bg-white dark:bg-gray-700 p-4 rounded-xl border border-gray-200 dark:border-gray-600"
-                     onclick="selectSeat('Gold', 2.5)">
+
+                <div
+                  class="seat-option cursor-pointer bg-white dark:bg-gray-700 p-4 rounded-xl border border-gray-200 dark:border-gray-600"
+                  onclick="selectSeat('Gold', 2.5)"
+                >
                   <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900 flex items-center justify-center">
-                      <iconify-icon icon="mdi:star" class="text-yellow-500"></iconify-icon>
+                    <div
+                      class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900 flex items-center justify-center"
+                    >
+                      <iconify-icon
+                        icon="mdi:star"
+                        class="text-yellow-500"
+                      ></iconify-icon>
                     </div>
                     <h4 class="font-bold">المقاعد الذهبية</h4>
                   </div>
-                  <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">منطقة مميزة مع رؤية ممتازة</p>
+                  <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
+                    منطقة مميزة مع رؤية ممتازة
+                  </p>
                   <div class="mt-4 font-bold text-green-600">× 2.5</div>
                 </div>
-                
-                <div class="seat-option cursor-pointer bg-white dark:bg-gray-700 p-4 rounded-xl border border-gray-200 dark:border-gray-600"
-                     onclick="selectSeat('VIP', 4.0)">
+
+                <div
+                  class="seat-option cursor-pointer bg-white dark:bg-gray-700 p-4 rounded-xl border border-gray-200 dark:border-gray-600"
+                  onclick="selectSeat('VIP', 4.0)"
+                >
                   <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                      <iconify-icon icon="mdi:crown" class="text-purple-500"></iconify-icon>
+                    <div
+                      class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center"
+                    >
+                      <iconify-icon
+                        icon="mdi:crown"
+                        class="text-purple-500"
+                      ></iconify-icon>
                     </div>
                     <h4 class="font-bold">مقاعد VIP</h4>
                   </div>
-                  <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">أفضل المقاعد مع خدمات مميزة</p>
+                  <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
+                    أفضل المقاعد مع خدمات مميزة
+                  </p>
                   <div class="mt-4 font-bold text-green-600">× 4.0</div>
                 </div>
               </div>
             </div>
-            
+
             <!-- Quantity Selection -->
             <div class="mb-8">
               <h3 class="text-lg font-semibold mb-4">عدد التذاكر</h3>
               <div class="flex items-center gap-4">
-                <button onclick="adjustQuantity(-1)" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                <button
+                  onclick="adjustQuantity(-1)"
+                  class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
+                >
                   <iconify-icon icon="mdi:minus"></iconify-icon>
                 </button>
                 <span id="quantity" class="text-xl font-bold">1</span>
-                <button onclick="adjustQuantity(1)" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                <button
+                  onclick="adjustQuantity(1)"
+                  class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center"
+                >
                   <iconify-icon icon="mdi:plus"></iconify-icon>
                 </button>
               </div>
             </div>
-            
+
             <!-- Price Prediction -->
             <div class="mb-8">
               <h3 class="text-lg font-semibold mb-4">السعر المتوقع</h3>
               <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-xl">
                 <div class="flex justify-between items-center">
-                  <span class="text-gray-600 dark:text-gray-300">السعر الأساسي:</span>
-                  <span class="font-medium">{{ base_price }} ر.س</span>
+                  <span class="text-gray-600 dark:text-gray-300"
+                    >السعر الأساسي:</span
+                  >
+                  <span class="font-medium" id="price-info"></span>
                 </div>
                 <div class="flex justify-between items-center mt-2">
-                  <span class="text-gray-600 dark:text-gray-300">مضاعف المقعد:</span>
+                  <span class="text-gray-600 dark:text-gray-300"
+                    >مضاعف المقعد:</span
+                  >
                   <span id="multiplier-display" class="font-medium">1.5x</span>
                 </div>
-                <div class="border-t border-gray-200 dark:border-gray-600 my-3"></div>
+                <div
+                  class="border-t border-gray-200 dark:border-gray-600 my-3"
+                ></div>
                 <div class="flex justify-between items-center">
                   <span class="text-lg font-bold">المجموع:</span>
-                  <span id="price-display" class="text-2xl font-bold text-green-600 price-display">
+                  <span
+                    id="price-display"
+                    class="text-2xl font-bold text-green-600 price-display"
+                  >
                     {{ price if price else "يتم الحساب..." }} ر.س
                   </span>
                 </div>
               </div>
             </div>
-            
+
             <!-- Purchase Button -->
-            <button id="buyBtn" class="btn-primary w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg">
+            <button
+              id="buyBtn"
+              class="btn-primary w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg"
+            >
               اتمام عملية الشراء
             </button>
           </div>
         </div>
-        
+
         <!-- Match Info Sidebar -->
         <div class="space-y-6">
           <!-- Venue Card -->
-          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="{{ venue }}" class="w-full h-40 object-cover">
+          <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+              alt="{{ venue }}"
+              class="w-full h-40 object-cover"
+            />
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">معلومات الملعب</h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4">{{ venue }}</p>
+              <p class="text-gray-600 dark:text-gray-300 mb-4" id="venue-info"></p>
               <div class="space-y-2">
                 <div class="flex items-center gap-2">
                   <iconify-icon icon="mdi:map-marker"></iconify-icon>
@@ -249,7 +352,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Match Stats -->
           <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
             <h3 class="text-xl font-bold mb-4">إحصائيات المباراة</h3>
@@ -257,49 +360,79 @@
               <div>
                 <div class="flex justify-between mb-1">
                   <span>التذاكر المباعة</span>
+                  <span id="tickets_sold"></span>
                 </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div
+                  class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5"
+                >
+                  <div
+                    class="bg-green-600 h-2.5 rounded-full"
+                    style="width: 30%"
+                  ></div>
                 </div>
               </div>
-              
+
               <div>
                 <div class="flex justify-between mb-1">
                   <span>الأيام المتبقية</span>
+                  <span id="days_until"></span>
                 </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div
+                  class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5"
+                >
+                  <div
+                    class="bg-blue-600 h-2.5 rounded-full"
+                    id="progress-bar"
+                    style="width: 0%"
+                  ></div>
                 </div>
               </div>
-              
+
               <div>
                 <div class="flex justify-between mb-1">
                   <span>أهمية المباراة</span>
                   <span>{{ importance }}</span>
                 </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                  <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 
+                <div
+                  class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5"
+                >
+                  <div
+                    class="bg-yellow-500 h-2.5 rounded-full"
+                    style="width: 
                     {% if importance == 'low' %}30%
                     {% elif importance == 'medium' %}60%
-                    {% else %}90%{% endif %}">
-                  </div>
+                    {% else %}90%{% endif %}"
+                  ></div>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <!-- Safety Info -->
           <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
             <h3 class="text-xl font-bold mb-4">إجراءات السلامة</h3>
             <div class="space-y-3">
               <div class="flex items-start gap-3">
-                <iconify-icon icon="mdi:shield-check" class="text-green-600 mt-1"></iconify-icon>
-                <span>يجب إبراز التذكرة الإلكترونية أو المطبوعة عند الدخول</span>
+                <iconify-icon
+                  icon="mdi:shield-check"
+                  class="text-green-600 mt-1"
+                ></iconify-icon>
+                <span
+                  >يجب إبراز التذكرة الإلكترونية أو المطبوعة عند الدخول</span
+                >
               </div>
               <div class="flex items-start gap-3">
-                <iconify-icon icon="mdi:bag-personal" class="text-green-600 mt-1"></iconify-icon>
+                <iconify-icon
+                  icon="mdi:bag-personal"
+                  class="text-green-600 mt-1"
+                ></iconify-icon>
                 <span>يسمح بحقيبة شخصية صغيرة فقط</span>
               </div>
               <div class="flex items-start gap-3">
-                <iconify-icon icon="mdi:clock-alert" class="text-green-600 mt-1"></iconify-icon>
+                <iconify-icon
+                  icon="mdi:clock-alert"
+                  class="text-green-600 mt-1"
+                ></iconify-icon>
                 <span>يوصى بالحضور قبل ساعتين من بدء المباراة</span>
               </div>
             </div>
@@ -313,19 +446,37 @@
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <h3 class="text-xl font-bold mb-4">منصة التذاكر</h3>
-          <p class="text-gray-400">المنصة الرسمية لحجز تذاكر المباريات في المملكة العربية السعودية</p>
+          <p class="text-gray-400">
+            المنصة الرسمية لحجز تذاكر المباريات في المملكة العربية السعودية
+          </p>
         </div>
-        
+
         <div>
           <h3 class="text-xl font-bold mb-4">روابط سريعة</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white transition">المباريات</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition">الأسعار</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition">الملاعب</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition">الشروط والأحكام</a></li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition"
+                >المباريات</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition"
+                >الأسعار</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition"
+                >الملاعب</a
+              >
+            </li>
+            <li>
+              <a href="#" class="text-gray-400 hover:text-white transition"
+                >الشروط والأحكام</a
+              >
+            </li>
           </ul>
         </div>
-        
+
         <div>
           <h3 class="text-xl font-bold mb-4">اتصل بنا</h3>
           <ul class="space-y-2">
@@ -339,14 +490,20 @@
             </li>
           </ul>
         </div>
-        
+
         <div>
           <h3 class="text-xl font-bold mb-4">تابعنا</h3>
           <div class="flex gap-4">
-            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition">
+            <a
+              href="#"
+              class="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition"
+            >
               <iconify-icon icon="mdi:twitter"></iconify-icon>
             </a>
-            <a href="#" class="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition">
+            <a
+              href="#"
+              class="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition"
+            >
               <iconify-icon icon="mdi:instagram"></iconify-icon>
             </a>
           </div>
@@ -360,69 +517,88 @@
         const html = document.documentElement;
         const icon = document.getElementById("theme-icon");
         const isDark = html.classList.toggle("dark");
-        
+    
         localStorage.setItem("darkMode", isDark);
         icon.setAttribute("icon", isDark ? "mdi:weather-night" : "mdi:weather-sunny");
       }
-      
+    
       // Check for saved preference
       if (localStorage.getItem("darkMode") === "true") {
         document.documentElement.classList.add("dark");
         document.getElementById("theme-icon").setAttribute("icon", "mdi:weather-night");
       }
-      
+    
       // Seat Selection Logic
       let selectedSeat = "Silver";
       let seatMultiplier = 1.5;
       let quantity = 1;
-      
+    
       function selectSeat(type, multiplier) {
         selectedSeat = type;
         seatMultiplier = multiplier;
-        
-        // Remove all selected classes
-        document.querySelectorAll('.seat-option').forEach(option => {
-          option.classList.remove('selected');
+    
+        document.querySelectorAll(".seat-option").forEach((option) => {
+          option.classList.remove("selected");
         });
-        
-        // Add selected class to clicked option
-        event.currentTarget.classList.add('selected');
-        
-        // Update multiplier display
-        document.getElementById('multiplier-display').textContent = multiplier + 'x';
-        
-        // Calculate and update price
+    
+        event.currentTarget.classList.add("selected");
+    
+        document.getElementById("multiplier-display").textContent = multiplier + "x";
+    
         calculatePrice();
       }
-      
-      // Quantity Adjustment
+    
       function adjustQuantity(change) {
         quantity += change;
         if (quantity < 1) quantity = 1;
         if (quantity > 10) quantity = 10;
-        
-        document.getElementById('quantity').textContent = quantity;
+    
+        document.getElementById("quantity").textContent = quantity;
         calculatePrice();
       }
-      
-      // Price Calculation
+    
       function calculatePrice() {
-        const basePrice = parseFloat("{{ base_price }}");
+        const basePrice = parseFloat(urlParams.get("base_price"));
         if (isNaN(basePrice)) return;
-        
+    
         const totalPrice = (basePrice * seatMultiplier * quantity).toFixed(2);
-        document.getElementById('price-display').textContent = totalPrice + ' ر.س';
+        document.getElementById("price-display").textContent = totalPrice + " ر.س";
       }
-      
-      // Initialize seat selection
-      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.seat-option').classList.add('selected');
+    
+      // Initialize after DOM loaded
+      const urlParams = new URLSearchParams(window.location.search);
+    
+      document.addEventListener("DOMContentLoaded", function () {
+        // Default seat selection
+        document.querySelector(".seat-option").classList.add("selected");
+    
+        // Get data from URL
+        const team1 = urlParams.get("team1") || "الفريق الأول";
+        const team2 = urlParams.get("team2") || "الفريق الثاني";
+        const stage = urlParams.get("stage") || "غير محددة";
+        const venue = urlParams.get("venue") || "غير محدد";
+        const base_price = urlParams.get("base_price") || "0";
+        const tickets_sold = urlParams.get("tickets_sold") || "0";
+        const days_until = parseInt(urlParams.get("days_until")) || 0;
+    
+        // Fill page content
+        document.getElementById("team-info").textContent = `${team1} vs ${team2}`;
+        document.getElementById("match-stage").textContent = `المرحلة: ${stage}`;
+        document.getElementById("venue-info").textContent = `الملعب: ${venue}`;
+        document.getElementById("price-info").textContent = `السعر الابتدائي: ${base_price} ريال`;
+        document.getElementById("tickets_sold").textContent = tickets_sold;
+        document.getElementById("days_until").textContent = days_until;
+    
+        // Set progress bar
+        let progress = 100 - (days_until / 30) * 100;
+        progress = Math.max(0, Math.min(progress, 100));
+        document.getElementById("progress-bar").style.width = `${progress}%`;
+    
         calculatePrice();
       });
-      
+    
       // Purchase Button Logic
-      document.getElementById("buyBtn").addEventListener("click", function() {
-        const urlParams = new URLSearchParams(window.location.search);
+      document.getElementById("buyBtn").addEventListener("click", function () {
         const formData = {
           base_price: urlParams.get("base_price"),
           seat_multiplier: seatMultiplier,
@@ -435,33 +611,29 @@
           team2: urlParams.get("team2"),
           year: urlParams.get("year"),
           seat_type: selectedSeat,
-          quantity: quantity
+          quantity: quantity,
         };
-        
-        fetch('/predict', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+    
+        fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         })
-        .then(response => response.json())
-        .then(data => {
-          if (data.predicted_price) {
-            document.getElementById('price-display').textContent = 
-              data.predicted_price + ' ر.س';
-            
-            // Show success message (could be enhanced with a modal)
-            alert("تم حساب السعر بنجاح! يمكنك الآن إتمام عملية الشراء");
-          } else {
-            alert("حدث خطأ في الحساب. يرجى المحاولة مرة أخرى.");
-          }
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          alert("حدث خطأ في الاتصال بالخادم.");
-        });
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.predicted_price) {
+              document.getElementById("price-display").textContent = data.predicted_price + " ر.س";
+              alert("تم حساب السعر بنجاح! يمكنك الآن إتمام عملية الشراء");
+            } else {
+              alert("حدث خطأ في الحساب. يرجى المحاولة مرة أخرى.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("حدث خطأ في الاتصال بالخادم.");
+          });
       });
     </script>
+    
   </body>
 </html>
