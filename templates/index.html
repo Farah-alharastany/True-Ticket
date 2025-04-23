@@ -3,84 +3,356 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>منصة حجز التذاكر</title>
+    <title>SaudiTix</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
     <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
     <style>
-      body { font-family: 'Tajawal', sans-serif; }
+      body { 
+        font-family: 'Tajawal', sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .theme-toggle {
+        transition: transform 0.3s;
+      }
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+      .match-card {
+        transition: all 0.3s ease;
+      }
+      .match-card:hover {
+        transform: translateY(-5px);
+      }
+      .countdown {
+        font-feature-settings: "tnum";
+      }
     </style>
   </head>
-  <body class="bg-gray-100 dark:bg-gray-900 text-black dark:text-white transition duration-300">
+  <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
     <!-- Header -->
-    <header class="bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex items-center justify-between">
-      <img class="w-20" src="{{url_for('static', filename='logo.png')}}" alt="الشعار" />
-      <nav class="flex gap-6 text-lg font-medium">
-        <a href="#" class="hover:text-green-600">الرئيسية</a>
-        <a href="#" class="hover:text-green-600">التذاكر</a>
-        <a href="#" class="hover:text-green-600">اتصل بنا</a>
-        <a href="#" class="hover:text-green-600">الأخبار</a>
+    <header class="bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex items-center justify-between sticky top-0 z-50">
+      <div class="flex items-center space-x-4 space-x-reverse">
+        <img class="w-20" src="{{url_for('static', filename='logo.png')}}" alt="الشعار" />
+      </div>
+      
+      <nav class="hidden md:flex gap-6 text-lg font-medium">
+        <a href="#" class="hover:text-green-600 dark:hover:text-green-400 flex items-center gap-1">
+          <iconify-icon icon="mdi:home"></iconify-icon>
+          الرئيسية
+        </a>
+        <a href="#" class="hover:text-green-600 dark:hover:text-green-400 flex items-center gap-1">
+          <iconify-icon icon="mdi:ticket"></iconify-icon>
+          التذاكر
+        </a>
+        <a href="#" class="hover:text-green-600 dark:hover:text-green-400 flex items-center gap-1">
+          <iconify-icon icon="mdi:newspaper"></iconify-icon>
+          الأخبار
+        </a>
+        <a href="#" class="hover:text-green-600 dark:hover:text-green-400 flex items-center gap-1">
+          <iconify-icon icon="mdi:phone"></iconify-icon>
+          اتصل بنا
+        </a>
       </nav>
-      <div onclick="toggleDarkMode()" class="cursor-pointer">
-        <iconify-icon id="theme-icon" icon="mdi:weather-sunny" class="text-3xl"></iconify-icon>
+      
+      <div class="flex items-center gap-4">
+        <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium hidden md:block">
+          تسجيل الدخول
+        </button>
+        <div onclick="toggleDarkMode()" class="cursor-pointer theme-toggle">
+          <iconify-icon id="theme-icon" icon="mdi:weather-sunny" class="text-3xl"></iconify-icon>
+        </div>
       </div>
     </header>
 
-    <!-- Slider -->
-    <section class="relative w-full h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1605479728601-8e4083f99b1d?fit=crop&w=1500&q=80');">
-      <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <h1 class="text-white text-3xl md:text-5xl font-bold">احجز تذكرتك الآن لأقوى المباريات!</h1>
+    <!-- Hero Slider -->
+    <section class="relative w-full h-96 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1605479728601-8e4083f99b1d?fit=crop&w=1500&q=80');">
+      <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center p-6 text-center">
+        <h1 class="text-white text-3xl md:text-5xl font-bold mb-4">احجز تذكرتك الآن لأقوى المباريات!</h1>
+        <p class="text-white text-xl mb-8 max-w-2xl">استمتع بتجربة حجز سهلة وسريعة مع أفضل الأسعار وضمان التذكرة الفورية</p>
+        <div class="flex gap-4">
+          <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-bold text-lg">
+            تصفح المباريات
+          </button>
+          <button class="bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white px-6 py-3 rounded-lg font-bold text-lg">
+            كيف تحجز؟
+          </button>
+        </div>
       </div>
     </section>
 
-<!-- Matches List -->
-<main class="max-w-6xl mx-auto py-12 px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  <!-- Match Card 1 -->
-  <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-lg transition duration-300">
-    <img src="https://flagcdn.com/w320/es.png" alt="إسبانيا" class="w-full h-40 object-cover">
-    <div class="p-5">
-      <h2 class="text-xl font-bold mb-1">إسبانيا 🇪🇸 vs ألمانيا 🇩🇪</h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-4">دور المجموعات</p>
-      <a href="match?stage=Group%20Stage&team1=Spain&team2=Germany&base_price=100&seat_multiplier=3.0&tickets_sold=2000&days_until=10&importance=medium&venue=King%20Abdullah%20Stadium&year=2025" class="block text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl font-semibold">
-        احجز الآن
-      </a>
+    <!-- Countdown Banner -->
+    <div class="bg-green-600 dark:bg-green-700 text-white py-4 px-6">
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-xl font-bold">كأس العالم 2025 تبدأ خلال:</div>
+        <div class="flex gap-4 countdown">
+          <div class="text-center">
+            <div class="text-3xl font-bold" id="days">45</div>
+            <div class="text-sm">أيام</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold" id="hours">12</div>
+            <div class="text-sm">ساعات</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold" id="minutes">30</div>
+            <div class="text-sm">دقائق</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold" id="seconds">22</div>
+            <div class="text-sm">ثواني</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Match Card 2 -->
-  <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-lg transition duration-300">
-    <img src="https://flagcdn.com/w320/br.png" alt="البرازيل" class="w-full h-40 object-cover">
-    <div class="p-5">
-      <h2 class="text-xl font-bold mb-1">البرازيل 🇧🇷 vs الأرجنتين 🇦🇷</h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-4">نصف النهائي</p>
-      <a href="match?stage=Semi-Final&team1=Brazil&team2=Argentina&base_price=120&seat_multiplier=3.5&tickets_sold=3000&days_until=15&importance=high&venue=Group%20Al%20Borj%20Stadium&year=2025" class="block text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl font-semibold">
-        احجز الآن
-      </a>
-    </div>
-  </div>
-  
-  <!-- Match Card 3 -->
-  <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-lg transition duration-300">
-    <img src="https://flagcdn.com/w320/fr.png" alt="فرنسا" class="w-full h-40 object-cover">
-    <div class="p-5">
-      <h2 class="text-xl font-bold mb-1">فرنسا 🇫🇷 vs إنجلترا 🏴</h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-4">ربع النهائي</p>
-      <a href="match?stage=Quarter-Final&team1=France&team2=England&base_price=130&seat_multiplier=2.8&tickets_sold=1500&days_until=5&importance=low&venue=International%20Stadium&year=2025" class="block text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl font-semibold">
-        احجز الآن
-      </a>
-    </div>
-  </div>
-</main>
+    <!-- Upcoming Matches -->
+    <section class="max-w-6xl mx-auto py-12 px-6">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold">المباريات القادمة</h2>
+        <div class="flex gap-2">
+          <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg">الكل</button>
+          <button class="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg">المجموعات</button>
+          <button class="px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg">التصفيات</button>
+        </div>
+      </div>
 
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Match Card 1 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 match-card">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="إسبانيا vs ألمانيا" class="w-full h-48 object-cover">
+            <div class="absolute top-4 left-4 bg-red-600 text-white px-2 py-1 rounded text-sm font-bold">الأكثر طلباً</div>
+          </div>
+          <div class="p-5">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <h2 class="text-xl font-bold">إسبانيا vs ألمانيا</h2>
+                <p class="text-gray-600 dark:text-gray-300 text-sm">دور المجموعات - المجموعة أ</p>
+              </div>
+              <div class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">20 يونيو</div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex items-center gap-2">
+                <iconify-icon icon="mdi:map-marker" class="text-green-600"></iconify-icon>
+                <span class="text-sm">ملعب الملك عبدالله</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <iconify-icon icon="mdi:clock" class="text-green-600"></iconify-icon>
+                <span class="text-sm">20:00</span>
+              </div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-4">
+              <div class="text-lg font-bold text-green-600">تبدأ الأسعار من 100 ر.س</div>
+              <div class="text-sm text-gray-500">باقي 120 تذكرة</div>
+            </div>
+            
+            <a href="match?stage=Group%20Stage&team1=Spain&team2=Germany&base_price=100&seat_multiplier=3.0&tickets_sold=2000&days_until=10&importance=medium&venue=King%20Abdullah%20Stadium&year=2025" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold">
+              احجز الآن
+            </a>
+          </div>
+        </div>
 
+        <!-- Match Card 2 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 match-card">
+          <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="البرازيل vs الأرجنتين" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <h2 class="text-xl font-bold">البرازيل vs الأرجنتين</h2>
+                <p class="text-gray-600 dark:text-gray-300 text-sm">نصف النهائي</p>
+              </div>
+              <div class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">5 يوليو</div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex items-center gap-2">
+                <iconify-icon icon="mdi:map-marker" class="text-green-600"></iconify-icon>
+                <span class="text-sm">ملعب المدينة</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <iconify-icon icon="mdi:clock" class="text-green-600"></iconify-icon>
+                <span class="text-sm">22:00</span>
+              </div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-4">
+              <div class="text-lg font-bold text-green-600">تبدأ الأسعار من 150 ر.س</div>
+              <div class="text-sm text-gray-500">باقي 85 تذكرة</div>
+            </div>
+            
+            <a href="match?stage=Semi-Final&team1=Brazil&team2=Argentina&base_price=120&seat_multiplier=3.5&tickets_sold=3000&days_until=15&importance=high&venue=Group%20Al%20Borj%20Stadium&year=2025" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold">
+              احجز الآن
+            </a>
+          </div>
+        </div>
+
+        <!-- Match Card 3 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 match-card">
+          <img src="https://images.unsplash.com/photo-1551958219-acbc608c6377?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="فرنسا vs إنجلترا" class="w-full h-48 object-cover">
+          <div class="p-5">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <h2 class="text-xl font-bold">فرنسا vs إنجلترا</h2>
+                <p class="text-gray-600 dark:text-gray-300 text-sm">ربع النهائي</p>
+              </div>
+              <div class="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">1 يوليو</div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-4">
+              <div class="flex items-center gap-2">
+                <iconify-icon icon="mdi:map-marker" class="text-green-600"></iconify-icon>
+                <span class="text-sm">الملعب الدولي</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <iconify-icon icon="mdi:clock" class="text-green-600"></iconify-icon>
+                <span class="text-sm">21:30</span>
+              </div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-4">
+              <div class="text-lg font-bold text-green-600">تبدأ الأسعار من 120 ر.س</div>
+              <div class="text-sm text-gray-500">باقي 200 تذكرة</div>
+            </div>
+            
+            <a href="match?stage=Quarter-Final&team1=France&team2=England&base_price=130&seat_multiplier=2.8&tickets_sold=1500&days_until=5&importance=low&venue=International%20Stadium&year=2025" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold">
+              احجز الآن
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="bg-gray-50 dark:bg-gray-800 py-12 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">كيف تحجز تذكرتك؟</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="bg-green-100 dark:bg-green-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <iconify-icon icon="mdi:magnify" class="text-3xl text-green-600"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-bold mb-2">ابحث عن المباراة</h3>
+            <p class="text-gray-600 dark:text-gray-300">تصفح المباريات القادمة واختر المباراة التي تريد حضورها</p>
+          </div>
+          
+          <div class="text-center">
+            <div class="bg-green-100 dark:bg-green-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <iconify-icon icon="mdi:seat" class="text-3xl text-green-600"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-bold mb-2">اختر مقعدك</h3>
+            <p class="text-gray-600 dark:text-gray-300">حدد مكان جلوسك في الملعب حسب المتاح والأسعار</p>
+          </div>
+          
+          <div class="text-center">
+            <div class="bg-green-100 dark:bg-green-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <iconify-icon icon="mdi:credit-card-check" class="text-3xl text-green-600"></iconify-icon>
+            </div>
+            <h3 class="text-xl font-bold mb-2">أكمل الحجز</h3>
+            <p class="text-gray-600 dark:text-gray-300">ادفع بطرق الدفع المتاحة واحصل على تذكرتك فوراً</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 px-6">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">منصة التذاكر</h3>
+          <p class="text-gray-400">المنصة الرسمية لحجز تذاكر المباريات في المملكة العربية السعودية</p>
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold mb-4">روابط سريعة</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">المباريات</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">الأسعار</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">الملاعب</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">الشروط والأحكام</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold mb-4">اتصل بنا</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center gap-2 text-gray-400">
+              <iconify-icon icon="mdi:phone"></iconify-icon>
+              920000000
+            </li>
+            <li class="flex items-center gap-2 text-gray-400">
+              <iconify-icon icon="mdi:email"></iconify-icon>
+              info@tickets.sa
+            </li>
+            <li class="flex items-center gap-2 text-gray-400">
+              <iconify-icon icon="mdi:map-marker"></iconify-icon>
+              الرياض، المملكة العربية السعودية
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold mb-4">تابعنا</h3>
+          <div class="flex gap-4">
+            <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
+              <iconify-icon icon="mdi:twitter"></iconify-icon>
+            </a>
+            <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
+              <iconify-icon icon="mdi:instagram"></iconify-icon>
+            </a>
+            <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
+              <iconify-icon icon="mdi:facebook"></iconify-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="max-w-6xl mx-auto pt-8 mt-8 border-t border-gray-700 text-center text-gray-400">
+        <p>© 2025 SaudiTix. جميع الحقوق محفوظة.</p>
+      </div>
+    </footer>
 
     <script>
+      // Fixed Dark/Light Mode Toggle
       function toggleDarkMode() {
         const html = document.documentElement;
         const icon = document.getElementById("theme-icon");
         const isDark = html.classList.toggle("dark");
+        
+        // Save preference to localStorage
+        localStorage.setItem("darkMode", isDark);
         icon.setAttribute("icon", isDark ? "mdi:weather-night" : "mdi:weather-sunny");
       }
+      
+      // Check for saved preference
+      if (localStorage.getItem("darkMode") === "true") {
+        document.documentElement.classList.add("dark");
+        document.getElementById("theme-icon").setAttribute("icon", "mdi:weather-night");
+      }
+      
+      // Countdown Timer (Example)
+      function updateCountdown() {
+        const now = new Date();
+        const eventDate = new Date("2025-06-10");
+        const diff = eventDate - now;
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        document.getElementById("days").textContent = days;
+        document.getElementById("hours").textContent = hours;
+        document.getElementById("minutes").textContent = minutes;
+        document.getElementById("seconds").textContent = seconds;
+      }
+      
+      // Update countdown every second
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
     </script>
   </body>
 </html>
