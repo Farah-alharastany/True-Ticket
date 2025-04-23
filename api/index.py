@@ -3,11 +3,14 @@ import joblib
 import numpy as np
 import pandas as pd
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="../templates")
 
 # Load model and encoder (FIXED: Single encoder)
-model = joblib.load("final_random_forest_model.pkl")
-encoder = joblib.load("ordinal_encoder.pkl")  # Load the encoder
+import os
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+model = joblib.load(os.path.join(base_dir, "final_random_forest_model.pkl"))
+encoder = joblib.load(os.path.join(base_dir, "ordinal_encoder.pkl"))
 
 @app.route("/")
 def index():
