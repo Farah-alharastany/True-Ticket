@@ -140,7 +140,7 @@
         >
           <div class="text-center md:text-right">
             <span
-            id="match-stage"
+              id="match-stage"
               class="bg-green-600 text-white px-4 py-1 rounded-full text-sm font-medium mb-4 inline-block"
             >
             </span>
@@ -339,7 +339,10 @@
             />
             <div class="p-6">
               <h3 class="text-xl font-bold mb-2">معلومات الملعب</h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4" id="venue-info"></p>
+              <p
+                class="text-gray-600 dark:text-gray-300 mb-4"
+                id="venue-info"
+              ></p>
               <div class="space-y-2">
                 <div class="flex items-center gap-2">
                   <iconify-icon icon="mdi:map-marker"></iconify-icon>
@@ -396,13 +399,13 @@
                 <div
                   class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5"
                 >
-                  <div
+                  <!-- <div
                     class="bg-yellow-500 h-2.5 rounded-full"
                     style="width: 
                     {% if importance == 'low' %}30%
                     {% elif importance == 'medium' %}60%
                     {% else %}90%{% endif %}"
-                  ></div>
+                  ></div> -->
                 </div>
               </div>
             </div>
@@ -517,61 +520,73 @@
         const html = document.documentElement;
         const icon = document.getElementById("theme-icon");
         const isDark = html.classList.toggle("dark");
-    
+
         localStorage.setItem("darkMode", isDark);
-        icon.setAttribute("icon", isDark ? "mdi:weather-night" : "mdi:weather-sunny");
+        icon.setAttribute(
+          "icon",
+          isDark ? "mdi:weather-night" : "mdi:weather-sunny"
+        );
       }
-    
+
       // Check for saved preference
       if (localStorage.getItem("darkMode") === "true") {
         document.documentElement.classList.add("dark");
-        document.getElementById("theme-icon").setAttribute("icon", "mdi:weather-night");
+        document
+          .getElementById("theme-icon")
+          .setAttribute("icon", "mdi:weather-night");
       }
-    
+
       // Seat Selection Logic
       let selectedSeat = "Silver";
       let seatMultiplier = 1.5;
       let quantity = 1;
-    
+
       function selectSeat(type, multiplier) {
         selectedSeat = type;
         seatMultiplier = multiplier;
-    
+
+        // Remove all selected classes
         document.querySelectorAll(".seat-option").forEach((option) => {
           option.classList.remove("selected");
         });
-    
+
+        // Add selected class to clicked option
         event.currentTarget.classList.add("selected");
-    
-        document.getElementById("multiplier-display").textContent = multiplier + "x";
-    
+
+        // Update multiplier display
+        document.getElementById("multiplier-display").textContent =
+          multiplier + "x";
+
+        // Calculate and update price
         calculatePrice();
       }
-    
+
+      // Quantity Adjustment
       function adjustQuantity(change) {
         quantity += change;
         if (quantity < 1) quantity = 1;
         if (quantity > 10) quantity = 10;
-    
+
         document.getElementById("quantity").textContent = quantity;
         calculatePrice();
       }
-    
+
+      // Price Calculation
       function calculatePrice() {
-        const basePrice = parseFloat(urlParams.get("base_price"));
-        if (isNaN(basePrice)) return;
-    
-        const totalPrice = (basePrice * seatMultiplier * quantity).toFixed(2);
-        document.getElementById("price-display").textContent = totalPrice + " ر.س";
+        const totalPrice = (predictedPrice * seatMultiplier * quantity).toFixed(
+          2
+        );
+        document.getElementById("price-display").textContent =
+          totalPrice + " ر.س";
       }
-    
+
       // Initialize after DOM loaded
       const urlParams = new URLSearchParams(window.location.search);
-    
+
       document.addEventListener("DOMContentLoaded", function () {
         // Default seat selection
         document.querySelector(".seat-option").classList.add("selected");
-    
+
         // Get data from URL
         const team1 = urlParams.get("team1") || "الفريق الأول";
         const team2 = urlParams.get("team2") || "الفريق الثاني";
@@ -580,23 +595,60 @@
         const base_price = urlParams.get("base_price") || "0";
         const tickets_sold = urlParams.get("tickets_sold") || "0";
         const days_until = parseInt(urlParams.get("days_until")) || 0;
-    
+
         // Fill page content
-        document.getElementById("team-info").textContent = `${team1} vs ${team2}`;
-        document.getElementById("match-stage").textContent = `المرحلة: ${stage}`;
+        document.getElementById(
+          "team-info"
+        ).textContent = `${team1} vs ${team2}`;
+        document.getElementById(
+          "match-stage"
+        ).textContent = `المرحلة: ${stage}`;
         document.getElementById("venue-info").textContent = `الملعب: ${venue}`;
-        document.getElementById("price-info").textContent = `السعر الابتدائي: ${base_price} ريال`;
+        document.getElementById(
+          "price-info"
+        ).textContent = `السعر الابتدائي: ${base_price} ريال`;
         document.getElementById("tickets_sold").textContent = tickets_sold;
         document.getElementById("days_until").textContent = days_until;
-    
+
         // Set progress bar
         let progress = 100 - (days_until / 30) * 100;
         progress = Math.max(0, Math.min(progress, 100));
         document.getElementById("progress-bar").style.width = `${progress}%`;
-    
-        calculatePrice();
+
+        // 👇 حساب السعر المتوقع تلقائيًا عند تحميل الصفحة
+        const formData = {
+          base_price: urlParams.get("base_price"),
+          seat_multiplier: seatMultiplier,
+          tickets_sold: urlParams.get("tickets_sold"),
+          days_until: urlParams.get("days_until"),
+          importance: urlParams.get("importance"),
+          stage: urlParams.get("stage"),
+          venue: urlParams.get("venue"),
+          team1: urlParams.get("team1"),
+          team2: urlParams.get("team2"),
+          year: urlParams.get("year"),
+          seat_type: selectedSeat,
+          quantity: quantity,
+        };
+
+        fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.predicted_price) {
+              predictedPrice = data.predicted_price;
+              calculatePrice();
+            }
+          })
+
+          .catch((error) => {
+            console.error("Error in auto-fetch:", error);
+          });
       });
-    
+
       // Purchase Button Logic
       document.getElementById("buyBtn").addEventListener("click", function () {
         const formData = {
@@ -613,7 +665,7 @@
           seat_type: selectedSeat,
           quantity: quantity,
         };
-    
+
         fetch("/predict", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -622,7 +674,8 @@
           .then((response) => response.json())
           .then((data) => {
             if (data.predicted_price) {
-              document.getElementById("price-display").textContent = data.predicted_price + " ر.س";
+              document.getElementById("price-display").textContent =
+                data.predicted_price + " ر.س";
               alert("تم حساب السعر بنجاح! يمكنك الآن إتمام عملية الشراء");
             } else {
               alert("حدث خطأ في الحساب. يرجى المحاولة مرة أخرى.");
@@ -634,6 +687,5 @@
           });
       });
     </script>
-    
   </body>
 </html>
