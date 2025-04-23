@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تفاصيل المباراة</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+    <style>
+      body { font-family: 'Tajawal', sans-serif; }
+      .btn {
+        transition: background-color 0.3s, transform 0.3s;
+      }
+      .btn:hover {
+        background-color: #16a34a;
+        transform: scale(1.05);
+      }
+      .dark .bg-gray-800 {
+        background-color: #2c2c2c;
+      }
+      .dark .text-gray-300 {
+        color: #e0e0e0;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 dark:bg-gray-900 text-black dark:text-white transition duration-300">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex items-center justify-between rounded-b-xl">
+      <img class="w-20" src="{{url_for('static', filename='logo.png')}}" alt="الشعار" />
+      <nav class="flex gap-6 text-lg font-medium">
+        <a href="#" class="hover:text-green-600">الرئيسية</a>
+        <a href="#" class="hover:text-green-600">التذاكر</a>
+        <a href="#" class="hover:text-green-600">اتصل بنا</a>
+        <a href="#" class="hover:text-green-600">الأخبار</a>
+      </nav>
+      <div onclick="toggleDarkMode()" class="cursor-pointer">
+        <iconify-icon id="theme-icon" icon="mdi:weather-sunny" class="text-3xl"></iconify-icon>
+      </div>
+    </header>
+
+    <!-- Match Details -->
+    <main class="max-w-6xl mx-auto py-12 px-6">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+        <!-- Match Info -->
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-4">
+            <img src="https://flagcdn.com/w320/es.png" alt="إسبانيا" class="w-16 h-16 object-cover rounded-full" />
+            <h2 class="text-3xl font-bold">إسبانيا 🇪🇸 vs ألمانيا 🇩🇪</h2>
+            <img src="https://flagcdn.com/w320/de.png" alt="ألمانيا" class="w-16 h-16 object-cover rounded-full" />
+          </div>
+          <span class="text-xl font-semibold text-gray-600 dark:text-gray-300">دور المجموعات</span>
+        </div>
+
+        <!-- Match Pricing -->
+        <div class="mb-6">
+          <h3 class="text-2xl font-bold mb-4">تفاصيل التذكرة</h3>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mb-2">المرحلة: <span id="stage"></span></p>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mb-2">الفئة: <span id="seat"></span></p>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mb-4">السعر المتوقع: <span id="price">{{ price if price else "لم يتم التنبؤ بالسعر بعد" }}</span> ريال سعودي</p>
+        </div>
+
+        <!-- Purchase Button Form -->
+        <form action="/predict" method="POST" class="space-y-4">
+          <!-- Hidden Inputs with Data for Prediction -->
+          <input type="hidden" name="base_price" value="300"> <!-- Example base price -->
+          <input type="hidden" name="seat_multiplier" value="1.2"> <!-- Example seat multiplier -->
+          <input type="hidden" name="tickets_sold" value="5000"> <!-- Example number of tickets sold -->
+          <input type="hidden" name="days_until" value="10"> <!-- Example days until match -->
+          
+          <!-- New Hidden Inputs for the missing features -->
+          <input type="hidden" name="tickets_allocated" value="50000"> <!-- Tickets allocated -->
+          <input type="hidden" name="remaining_tickets" value="45000"> <!-- Remaining tickets (calculated) -->
+          <input type="hidden" name="demand_factor" value="0.1"> <!-- Demand factor (calculated) -->
+
+          <!-- Additional Match Info -->
+          <input type="hidden" name="stage" value="{{ request.args.get('stage') }}"> <!-- Stage of the match -->
+          <input type="hidden" name="seat" value="{{ request.args.get('seat') }}"> <!-- Seat Type -->
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn block w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-center font-semibold">
+            شراء التذكرة الآن
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      // Fetch query parameters from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const stage = urlParams.get('stage');
+      const team1 = urlParams.get('team1');
+      const team2 = urlParams.get('team2');
+      const seatType = urlParams.get('seat');
+
+      // Set the match details dynamically
+      document.querySelector('h2').textContent = `${team1} 🇪🇸 vs ${team2} 🇩🇪`;
+      document.getElementById('stage').textContent = stage;
+      document.getElementById('seat').textContent = seatType;
+
+      function toggleDarkMode() {
+        const html = document.documentElement;
+        const icon = document.getElementById("theme-icon");
+        const isDark = html.classList.toggle("dark");
+        icon.setAttribute("icon", isDark ? "mdi:weather-night" : "mdi:weather-sunny");
+      }
+    </script>
+  </body>
+</html>
