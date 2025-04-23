@@ -4,11 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>تفاصيل المباراة</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
     <style>
-      body { font-family: 'Tajawal', sans-serif; }
+      body {
+        font-family: "Tajawal", sans-serif;
+      }
       .btn {
         transition: background-color 0.3s, transform 0.3s;
       }
@@ -24,10 +32,18 @@
       }
     </style>
   </head>
-  <body class="bg-gray-100 dark:bg-gray-900 text-black dark:text-white transition duration-300">
+  <body
+    class="bg-gray-100 dark:bg-gray-900 text-black dark:text-white transition duration-300"
+  >
     <!-- Header -->
-    <header class="bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex items-center justify-between rounded-b-xl">
-      <img class="w-20" src="{{url_for('static', filename='logo.png')}}" alt="الشعار" />
+    <header
+      class="bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex items-center justify-between rounded-b-xl"
+    >
+      <img
+        class="w-20"
+        src="{{url_for('static', filename='logo.png')}}"
+        alt="الشعار"
+      />
       <nav class="flex gap-6 text-lg font-medium">
         <a href="#" class="hover:text-green-600">الرئيسية</a>
         <a href="#" class="hover:text-green-600">التذاكر</a>
@@ -35,7 +51,11 @@
         <a href="#" class="hover:text-green-600">الأخبار</a>
       </nav>
       <div onclick="toggleDarkMode()" class="cursor-pointer">
-        <iconify-icon id="theme-icon" icon="mdi:weather-sunny" class="text-3xl"></iconify-icon>
+        <iconify-icon
+          id="theme-icon"
+          icon="mdi:weather-sunny"
+          class="text-3xl"
+        ></iconify-icon>
       </div>
     </header>
 
@@ -45,65 +65,164 @@
         <!-- Match Info -->
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center gap-4">
-            <img src="https://flagcdn.com/w320/es.png" alt="إسبانيا" class="w-16 h-16 object-cover rounded-full" />
-            <h2 class="text-3xl font-bold">إسبانيا 🇪🇸 vs ألمانيا 🇩🇪</h2>
-            <img src="https://flagcdn.com/w320/de.png" alt="ألمانيا" class="w-16 h-16 object-cover rounded-full" />
+            <!-- Flag and Team 1 Image -->
+            <img
+              id="team1-flag"
+              src="https://flagcdn.com/w320/{{ team1Flag }}.png"
+              alt=""
+              class="w-16 h-16 object-cover rounded-full"
+            />
+            <h2 class="text-3xl font-bold" id="match-title">
+              {{ team1 }} 🇪🇸 vs {{ team2 }} 🇩🇪
+            </h2>
+            <!-- Flag and Team 2 Image -->
+            <img
+              id="team2-flag"
+              src="https://flagcdn.com/w320/{{ team2Flag }}.png"
+              alt=""
+              class="w-16 h-16 object-cover rounded-full"
+            />
           </div>
-          <span class="text-xl font-semibold text-gray-600 dark:text-gray-300">دور المجموعات</span>
+          <!-- Match Stage -->
+          <span
+            class="text-xl font-semibold text-gray-600 dark:text-gray-300"
+            id="stage"
+            >{{ stage }}</span
+          >
         </div>
 
         <!-- Match Pricing -->
         <div class="mb-6">
           <h3 class="text-2xl font-bold mb-4">تفاصيل التذكرة</h3>
-          <p class="text-lg text-gray-600 dark:text-gray-300 mb-2">المرحلة: <span id="stage"></span></p>
-          <p class="text-lg text-gray-600 dark:text-gray-300 mb-2">الفئة: <span id="seat"></span></p>
-          <p class="text-lg text-gray-600 dark:text-gray-300 mb-4">السعر المتوقع: <span id="price">{{ price if price else "لم يتم التنبؤ بالسعر بعد" }}</span> ريال سعودي</p>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mb-2">
+            المرحلة: <span id="stage">{{ stage }}</span>
+          </p>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mb-2">
+            الفئة: <span id="seat"></span>
+          </p>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mb-4">
+            السعر المتوقع:
+            <span id="price"
+              >{{ price if price else "لم يتم التنبؤ بالسعر بعد" }}</span
+            >
+            ريال سعودي
+          </p>
         </div>
 
         <!-- Purchase Button Form -->
-        <form action="/predict" method="POST" class="space-y-4">
+        <form id="predictForm" class="space-y-4">
           <!-- Hidden Inputs with Data for Prediction -->
-          <input type="hidden" name="base_price" value="300"> <!-- Example base price -->
-          <input type="hidden" name="seat_multiplier" value="1.2"> <!-- Example seat multiplier -->
-          <input type="hidden" name="tickets_sold" value="5000"> <!-- Example number of tickets sold -->
-          <input type="hidden" name="days_until" value="10"> <!-- Example days until match -->
-          
-          <!-- New Hidden Inputs for the missing features -->
-          <input type="hidden" name="tickets_allocated" value="50000"> <!-- Tickets allocated -->
-          <input type="hidden" name="remaining_tickets" value="45000"> <!-- Remaining tickets (calculated) -->
-          <input type="hidden" name="demand_factor" value="0.1"> <!-- Demand factor (calculated) -->
-
-          <!-- Additional Match Info -->
-          <input type="hidden" name="stage" value="{{ request.args.get('stage') }}"> <!-- Stage of the match -->
-          <input type="hidden" name="seat" value="{{ request.args.get('seat') }}"> <!-- Seat Type -->
-
+          <input type="hidden" name="base_price" id="base_price" />
+          <input type="hidden" name="seat_multiplier" id="seat_multiplier" />
+          <input type="hidden" name="tickets_sold" id="tickets_sold" />
+          <input type="hidden" name="days_until" id="days_until" />
+          <input type="hidden" name="importance" id="importance" />
+          <input type="hidden" name="stage" id="hidden-stage" />
+          <input type="hidden" name="venue" id="venue" />
+          <input type="hidden" name="team1" id="team1" />
+          <input type="hidden" name="team2" id="team2" />
+          <input type="hidden" name="year" id="year" />
+        
+          <!-- Dynamic Inputs -->
+          <input type="hidden" name="stage" id="input-stage" value="{{ stage }}" />
+        
+          <!-- Seat Type Selection -->
+          <label for="seat-select" class="block text-lg font-medium">اختر نوع التذكرة:</label>
+          <select
+            name="seat"
+            id="seat-select"
+            class="w-full p-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-black dark:text-white"
+          >
+            <option value="Silver">فضية</option>
+            <option value="Gold">ذهبية</option>
+            <option value="VIP">كبار الشخصيات</option>
+          </select>
+        
+          <!-- Display Error Message if exists -->
+          {% if error_message %}
+          <div class="text-red-600 font-semibold py-4 bg-red-100 rounded-xl mb-6">
+            {{ error_message }}
+          </div>
+          {% endif %}
+        
           <!-- Submit Button -->
-          <button type="submit" class="btn block w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-center font-semibold">
+          <button
+            type="button"
+            id="buyBtn"
+            class="btn block w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl text-center font-semibold"
+          >
             شراء التذكرة الآن
           </button>
         </form>
+        
       </div>
     </main>
 
     <script>
-      // Fetch query parameters from URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const stage = urlParams.get('stage');
-      const team1 = urlParams.get('team1');
-      const team2 = urlParams.get('team2');
-      const seatType = urlParams.get('seat');
-
-      // Set the match details dynamically
-      document.querySelector('h2').textContent = `${team1} 🇪🇸 vs ${team2} 🇩🇪`;
-      document.getElementById('stage').textContent = stage;
-      document.getElementById('seat').textContent = seatType;
-
-      function toggleDarkMode() {
-        const html = document.documentElement;
-        const icon = document.getElementById("theme-icon");
-        const isDark = html.classList.toggle("dark");
-        icon.setAttribute("icon", isDark ? "mdi:weather-night" : "mdi:weather-sunny");
-      }
+      document.getElementById("buyBtn").addEventListener("click", function () {
+        // جمع البيانات من URL لتمريرها
+        const urlParams = new URLSearchParams(window.location.search);
+        const basePrice = urlParams.get("base_price");
+        const seatMultiplier = urlParams.get("seat_multiplier");
+        const ticketsSold = urlParams.get("tickets_sold");
+        const daysUntil = urlParams.get("days_until");
+        const importance = urlParams.get("importance");
+        const stage = urlParams.get("stage");
+        const venue = urlParams.get("venue");
+        const team1 = urlParams.get("team1");
+        const team2 = urlParams.get("team2");
+        const year = urlParams.get("year");
+    
+        // تعبئة الحقول المخفية بالقيم
+        document.getElementById("base_price").value = basePrice;
+        document.getElementById("seat_multiplier").value = seatMultiplier;
+        document.getElementById("tickets_sold").value = ticketsSold;
+        document.getElementById("days_until").value = daysUntil;
+        document.getElementById("importance").value = importance;
+        document.getElementById("hidden-stage").value = stage;
+        document.getElementById("venue").value = venue;
+        document.getElementById("team1").value = team1;
+        document.getElementById("team2").value = team2;
+        document.getElementById("year").value = year;
+    
+        // إرسال الطلب إلى السيرفر عبر AJAX
+        fetch('/predict', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            base_price: basePrice,
+            seat_multiplier: seatMultiplier,
+            tickets_sold: ticketsSold,
+            days_until: daysUntil,
+            importance: importance,
+            stage: stage,
+            venue: venue,
+            team1: team1,
+            team2: team2,
+            year: year,
+          }),
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.predicted_price) {
+            // عرض السعر المتنبأ به في الصفحة
+            document.getElementById("price").textContent = data.predicted_price + " ريال سعودي";
+          } else {
+            alert("حدث خطأ في الحساب. حاول مجددًا.");
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("حدث خطأ في الاتصال بالسيرفر.");
+        });
+      });
     </script>
   </body>
 </html>
