@@ -31,36 +31,65 @@
   </head>
   <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
     <!-- Header -->
-    <header class="bg-white dark:bg-gray-800 shadow-md py-4 px-6 flex items-center justify-between sticky top-0 z-50">
-      <div class="flex items-center space-x-4 space-x-reverse">
-        <img class="w-20" src="{{url_for('static', filename='logo.png')}}" alt="الشعار" />
-      </div>
-      
-      <nav class="hidden md:flex gap-6 text-lg font-medium">
-        <a href="#" class="hover:text-green-600 dark:hover:text-green-400 flex items-center gap-1">
-          <iconify-icon icon="mdi:home"></iconify-icon>
-          الرئيسية
-        </a>
-        <a href="#" class="hover:text-green-600 dark:hover:text-green-400 flex items-center gap-1">
-          <iconify-icon icon="mdi:ticket"></iconify-icon>
-          التذاكر
-        </a>
-        <a href="#" class="hover:text-green-600 dark:hover:text-green-400 flex items-center gap-1">
-          <iconify-icon icon="mdi:newspaper"></iconify-icon>
-          الأخبار
-        </a>
-        <a href="#" class="hover:text-green-600 dark:hover:text-green-400 flex items-center gap-1">
-          <iconify-icon icon="mdi:phone"></iconify-icon>
-          اتصل بنا
-        </a>
-      </nav>
-      
-      <div class="flex items-center gap-4">
-        <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium hidden md:block">
-          تسجيل الدخول
-        </button>
-        <div onclick="toggleDarkMode()" class="cursor-pointer theme-toggle">
-          <iconify-icon id="theme-icon" icon="mdi:weather-sunny" class="text-3xl"></iconify-icon>
+    <header
+      class="bg-white dark:bg-gray-800 shadow-sm py-4 px-6 sticky top-0 z-50"
+    >
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-4 space-x-reverse">
+          <img
+            class="w-16"
+            src="{{url_for('static', filename='logo.png')}}"
+            alt="شعار المنصة"
+          />
+          <h1 class="text-xl font-bold hidden md:block">
+            منصة التذاكر الرسمية
+          </h1>
+        </div>
+
+        <nav class="hidden md:flex items-center gap-8">
+          <a
+            href="#"
+            class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition"
+          >
+            الرئيسية
+          </a>
+          <a
+            href="#"
+            class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition"
+          >
+            المباريات
+          </a>
+          <a
+            href="#"
+            class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition"
+          >
+            حجوزاتي
+          </a>
+          <a
+            href="#"
+            class="text-lg font-medium hover:text-green-600 dark:hover:text-green-400 transition"
+          >
+            المساعدة
+          </a>
+        </nav>
+
+        <div class="flex items-center gap-4">
+          <button
+            class="hidden md:flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition"
+          >
+            <iconify-icon icon="mdi:account"></iconify-icon>
+            تسجيل الدخول
+          </button>
+          <button
+            onclick="toggleDarkMode()"
+            class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          >
+            <iconify-icon
+              id="theme-icon"
+              icon="mdi:weather-sunny"
+              class="text-2xl"
+            ></iconify-icon>
+          </button>
         </div>
       </div>
     </header>

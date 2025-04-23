@@ -392,10 +392,10 @@
               </div>
 
               <div>
-                <div class="flex justify-between mb-1">
+                <!-- <div class="flex justify-between mb-1">
                   <span>أهمية المباراة</span>
                   <span>{{ importance }}</span>
-                </div>
+                </div> -->
                 <div
                   class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5"
                 >
@@ -445,41 +445,23 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12 px-6 mt-12">
-      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer class="bg-gray-800 text-white py-12 px-6">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <h3 class="text-xl font-bold mb-4">منصة التذاكر</h3>
-          <p class="text-gray-400">
-            المنصة الرسمية لحجز تذاكر المباريات في المملكة العربية السعودية
-          </p>
+          <h3 class="text-xl font-bold mb-4">SaudiTix</h3>
+          <p class="text-gray-400">المنصة الرسمية لحجز تذاكر المباريات في المملكة العربية السعودية</p>
         </div>
-
+        
         <div>
           <h3 class="text-xl font-bold mb-4">روابط سريعة</h3>
           <ul class="space-y-2">
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white transition"
-                >المباريات</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white transition"
-                >الأسعار</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white transition"
-                >الملاعب</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-gray-400 hover:text-white transition"
-                >الشروط والأحكام</a
-              >
-            </li>
+            <li><a href="#" class="text-gray-400 hover:text-white">المباريات</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">الأسعار</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">الملاعب</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">الشروط والأحكام</a></li>
           </ul>
         </div>
-
+        
         <div>
           <h3 class="text-xl font-bold mb-4">اتصل بنا</h3>
           <ul class="space-y-2">
@@ -491,26 +473,31 @@
               <iconify-icon icon="mdi:email"></iconify-icon>
               info@tickets.sa
             </li>
+            <li class="flex items-center gap-2 text-gray-400">
+              <iconify-icon icon="mdi:map-marker"></iconify-icon>
+              الرياض، المملكة العربية السعودية
+            </li>
           </ul>
         </div>
-
+        
         <div>
           <h3 class="text-xl font-bold mb-4">تابعنا</h3>
           <div class="flex gap-4">
-            <a
-              href="#"
-              class="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition"
-            >
+            <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
               <iconify-icon icon="mdi:twitter"></iconify-icon>
             </a>
-            <a
-              href="#"
-              class="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition"
-            >
+            <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
               <iconify-icon icon="mdi:instagram"></iconify-icon>
+            </a>
+            <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
+              <iconify-icon icon="mdi:facebook"></iconify-icon>
             </a>
           </div>
         </div>
+      </div>
+      
+      <div class="max-w-6xl mx-auto pt-8 mt-8 border-t border-gray-700 text-center text-gray-400">
+        <p>© 2025 SaudiTix. جميع الحقوق محفوظة.</p>
       </div>
     </footer>
 
@@ -604,9 +591,7 @@
           "match-stage"
         ).textContent = `المرحلة: ${stage}`;
         document.getElementById("venue-info").textContent = `الملعب: ${venue}`;
-        document.getElementById(
-          "price-info"
-        ).textContent = `السعر الابتدائي: ${base_price} ريال`;
+
         document.getElementById("tickets_sold").textContent = tickets_sold;
         document.getElementById("days_until").textContent = days_until;
 
@@ -641,49 +626,14 @@
             if (data.predicted_price) {
               predictedPrice = data.predicted_price;
               calculatePrice();
+              document.getElementById(
+                "price-info"
+              ).textContent = `سعر التذكرة: ${predictedPrice} ريال`;
             }
           })
 
           .catch((error) => {
             console.error("Error in auto-fetch:", error);
-          });
-      });
-
-      // Purchase Button Logic
-      document.getElementById("buyBtn").addEventListener("click", function () {
-        const formData = {
-          base_price: urlParams.get("base_price"),
-          seat_multiplier: seatMultiplier,
-          tickets_sold: urlParams.get("tickets_sold"),
-          days_until: urlParams.get("days_until"),
-          importance: urlParams.get("importance"),
-          stage: urlParams.get("stage"),
-          venue: urlParams.get("venue"),
-          team1: urlParams.get("team1"),
-          team2: urlParams.get("team2"),
-          year: urlParams.get("year"),
-          seat_type: selectedSeat,
-          quantity: quantity,
-        };
-
-        fetch("/predict", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.predicted_price) {
-              document.getElementById("price-display").textContent =
-                data.predicted_price + " ر.س";
-              alert("تم حساب السعر بنجاح! يمكنك الآن إتمام عملية الشراء");
-            } else {
-              alert("حدث خطأ في الحساب. يرجى المحاولة مرة أخرى.");
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            alert("حدث خطأ في الاتصال بالخادم.");
           });
       });
     </script>
